@@ -1,0 +1,55 @@
+/* This collapses the border between the individual tables rows and cells into one line. */
+table {
+    border-collapse: collapse;
+}
+
+tr {
+    width: 399px;
+}
+
+td {
+    /* This has to be relative in order the circle and cross img are placed with the position absolute one above the other. */
+    position: relative;
+    width: 133px;
+    height: 133px;
+    border: 5px solid black;
+    cursor: pointer;
+}
+
+td:hover {
+    background-color: rgba(25, 221, 0, 0.1);
+}
+
+
+/* For the first row and each cell*/
+tr:first-child td {
+    border-top: 0;
+}
+
+/* For each row and first cell*/
+tr td:first-child {
+    border-left: 0;
+}
+
+/* For the last row and every cell */
+tr:last-child td {
+    border-bottom: 0;
+}
+
+/* For every row and last cell */
+tr td:last-child {
+    border-right: 0;
+}
+
+/* This places the circle and cross img one above the other.*/
+.shape {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    left: 26.5px;
+    top: 26.5px;
+}
+
+.d-none {
+    display: none;
+}
