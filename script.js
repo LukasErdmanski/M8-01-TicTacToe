@@ -17,6 +17,7 @@ let currentPlayingAudio;
  * Set the game over img, restart button and all symbols invisible (with d-none class).
  */
 function restart() {
+    document.documentElement.classList.remove('d-none')
     stopAudio();
 
     resetGameParameters()
