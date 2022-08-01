@@ -19,11 +19,8 @@ let currentPlayingAudio;
 function restart() {
     document.documentElement.classList.remove('d-none')
     stopAudio();
-
     resetGameParameters()
-
     hideGameOverElements();
-
     resetLinesHideSymbols();
 }
 
@@ -47,7 +44,6 @@ function resetGameParameters() {
     fields = [];
     winner = undefined;
     amountOfTurns = 0;
-
 }
 
 
@@ -121,7 +117,7 @@ function enableHoverOverFields() {
  */
 function fillShape(id) {
     /* Set the symbol only one time: if the field is empty and so lang as the gemovOver variable is false. */
-    if (!fields[id] && !gameOver && amountOfTurns < 9) {
+    if (canFillShaope(id)) {
         playAudio(AUDIO_SYMBOL);
 
         if (currentShape == 'cross') {
@@ -132,6 +128,14 @@ function fillShape(id) {
 
         setFulfillFieldAndCheckForWin(id);
     }
+}
+
+
+/**
+ * Condtiion to execute the function fillShapre (s. above that).
+ */
+function canFillShaope(id) {
+    return !fields[id] && !gameOver && amountOfTurns < 9
 }
 
 
@@ -199,7 +203,6 @@ Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
 function draw() {
     if (amountOfTurns < 9) {
         for (let i = 0; i < fields.length; i++) {
-            const field = fields[i];
             // Remove the d-None css class, if fiels array value = cirle.
             if (fields[i] == 'circle') {
                 document.getElementById(`circle-${i}`).classList.remove('d-none')
@@ -236,26 +239,28 @@ function checkForWin() {
  * Check if one of the table rows have three the same symbols.
  */
 function checkRows() {
-    // Check for the 1. table row if the left symbol is the same as the middle one AND the middle as the right one.
-    // Check if the 1. valaue in the if condition exist / is not undefined.
-    if (fields[0] == fields[1] && fields[1] == fields[2] && fields[0]) {
+    checkRow(0, 1, 2, 0);
+    checkRow(3, 4, 5, 1);
+    checkRow(6, 7, 8, 2);
+}
+
+
+/**
+ * Check for the table row if the left symbol is the same as the middle one AND the middle as the right one.
+ * @param {number} first - This is the first symbol in the row.
+ * @param {number} middle - This is the middle symbol in the row.
+ * @param {number} last -This is the last symbol in the row.
+ * @param {number} lineNumber - This is the number of the line.
+ */
+function checkRow(first, middle, last, lineNumber) {
+    // Check if the first valaue in the if condition exist / is not undefined.
+    if (fields[first] == fields[middle] && fields[middle] == fields[last] && fields[first]) {
         // Set the winner if the condition is fulfilled for the winning symbol.
-        winner = fields[0];
+        winner = fields[first];
         // Cross out the symbols.
-        document.getElementById('line-0').style.transform = 'scaleX(1)';
+        document.getElementById(`line-${lineNumber}`).style.transform = 'scaleX(1)';
     }
 
-    // Check for the 2. table row if the left symbol is the same as the middle one AND the middle as the right one.
-    if (fields[3] == fields[4] && fields[4] == fields[5] && fields[3]) {
-        winner = fields[3];
-        document.getElementById('line-1').style.transform = 'scaleX(1)';
-    }
-
-    // Check for the 3. table row if the left symbol is the same as the middle one AND the middle as the right one.
-    if (fields[6] == fields[7] && fields[7] == fields[8] && fields[6]) {
-        winner = fields[6];
-        document.getElementById('line-2').style.transform = 'scaleX(1)';
-    }
 }
 
 
@@ -263,25 +268,24 @@ function checkRows() {
  *  * Check if one of the table colums have three the same symbols.
  */
 function checkColumns() {
-    // Check for the 1. table column if the first symbol is the same as the middle one AND the middle as the last one.
-    // Check if the 1. valaue in the if condition exist / is not undefined.
-    if (fields[0] == fields[3] && fields[3] == fields[6] && fields[0]) {
-        winner = fields[0];
-        document.getElementById('line-3').style.transform = 'scaleY(1)';
-    }
+    checkColumn(0, 3, 6, 3);
+    checkColumn(1, 4, 7, 4);
+    checkColumn(2, 5, 8, 5);
+}
 
-    // Check for the 2. table column if the first symbol is the same as the middle one AND the middle as the last one.
-    // Check if the 1. valaue in the if condition exist / is not undefined.
-    if (fields[1] == fields[4] && fields[4] == fields[7] && fields[1]) {
-        winner = fields[1];
-        document.getElementById('line-4').style.transform = 'scaleY(1)';
-    }
 
-    // Check for the 3. table column if the first symbol is the same as the middle one AND the middle as the last one.
-    // Check if the 1. valaue in the if condition exist / is not undefined.
-    if (fields[2] == fields[5] && fields[5] == fields[8] && fields[2]) {
-        winner = fields[2];
-        document.getElementById('line-5').style.transform = 'scaleY(1)';
+/**
+ * Check for the table column if the top symbol is the same as the middle one AND the middle as the down one.
+ * @param {number} top - This is the top symbol in the column.
+ * @param {number} middle - This is the middle symbol in the column.
+ * @param {number} down - This is the down symbol in the column.
+ * @param {number} columnNumber - This is the number of the table line.
+ */
+function checkColumn(top, middle, down, columnNumber) {
+    // Check if the first valaue in the if condition exist / is not undefined.
+    if (fields[top] == fields[middle] && fields[middle] == fields[down] && fields[top]) {
+        winner = fields[top];
+        document.getElementById(`line-${columnNumber}`).style.transform = 'scaleY(1)';
     }
 }
 
@@ -317,18 +321,18 @@ function outputWinner() {
             winner = 'Player 2'
         }
 
-        // Output the winner in the console and in the the winner info container.
-        console.log('Winner:', winner);
-        document.getElementById('winner-info').innerHTML = `The winner is ${winner}!`;
-        // Show the winner info container, the game over img and the restart button.
-        showSetGameOver();
+        inputWinnerShowSetGameOver('The winner is ', winner)
     } else if (amountOfTurns == 9) {
-        // Output the draw in the console (no winner exists) and in the the winner info container.
-        console.log('DRAW');
-        document.getElementById('winner-info').innerHTML = 'DRAW!';
-        // Show the winner info container, the game over img and the restart button.
-        showSetGameOver();
+        inputWinnerShowSetGameOver('DRAW', '')
     }
+}
+
+
+function inputWinnerShowSetGameOver(winnerInfoText, winner) {
+    // Output the winner or draw in the the winner info container.
+    document.getElementById('winner-info').innerHTML = `${winnerInfoText}${winner}!`;
+    // Show the winner info container, the game over img and the restart button.
+    showSetGameOver();
 }
 
 
