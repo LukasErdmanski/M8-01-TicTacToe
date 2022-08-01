@@ -6,55 +6,99 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Tic Tac Toe</title>
+    <title>Tic Tac Toe - Game by Lukas E.</title>
+    <link rel="icon" href="img/icon.svg">
+
+    <!-- Set the application height to the height of the device windows innerHeight at the beginning before the html body is build ("solution for the the safari browser in order no y-overflow arises because of the adress bar). -->
+    <script src="appHeight.js"></script>
 </head>
 
-<body>
-    <table>
-        <tr>
-            <!-- With ./img you make sure that you are in a current order. Not required for Winows, but with Linux and Mac systems. -->
-            <td onclick="fillShape(0)">
-                <img class="shape d-none" src="./img/circle.png">
-                <img class="shape d-none" src="./img/cross.png">
-            </td>
-            <td onclick="fillShape(1)">
-                <img class="shape d-none" src="./img/circle.png">
-                <img class="shape d-none" src="./img/cross.png">
-            </td>
-            <td onclick="fillShape(2)">
-                <img class="shape d-none" src="./img/circle.png">
-                <img class="shape d-none" src="./img/cross.png">
-            </td>
-        </tr>
-        <tr>
-            <td onclick="fillShape(3)">
-                <img class="shape d-none" src="./img/circle.png">
-                <img class="shape d-none" src="./img/cross.png">
-            </td>
-            <td onclick="fillShape(4)">
-                <img class="shape d-none" src="./img/circle.png">
-                <img class="shape d-none" src="./img/cross.png">
-            </td>
-            <td onclick="fillShape(5)">
-                <img class="shap d-none" src="./img/circle.png">
-                <img class="shape d-none" src="./img/cross.png">
-            </td>
-        </tr>
-        <tr>
-            <td onclick="fillShape(6)">
-                <img class="shape d-none" src="./img/circle.png">
-                <img class="shape d-none" src="./img/cross.png">
-            </td>
-            <td onclick="fillShape(7)">
-                <img class="shape d-none" src="./img/circle.png">
-                <img class="shape d-none" src="./img/cross.png">
-            </td>
-            <td onclick="fillShape(8)">
-                <img class="shape d-none" src="./img/circle.png">
-                <img class="shape d-none" src="./img/cross.png">
-            </td>
-        </tr>
-    </table>
+<body onload="restart()">
+    <!-- #region gameContent -->
+    <div class="gameContent">
+        <!-- #region title author -->
+        <div class="title">TIC TAC TOC<br>GAME</div>
+        <div class="author">by Lukas E.</div>
+        <!-- endregion title author -->
+
+        <!-- #region winner-info game-over img restart-btn -->
+        <div id="winner-info" class="winner-info d-none" onclick=" restart()">Player 2</div>
+        <img class="game-over d-none" id="game-over" src="img/game-over.png">
+        <button id="restart-btn" class="restart-btn d-none" onclick=" restart()">Restart</button>
+        <!-- #endregion winner-info game-over img restart-btn -->
+
+        <!-- #region player-panel -->
+        <div class="player-panel">
+            <div id="player-1">
+                <img src="./img/circle.png">Player<br>1
+            </div>
+            <div class="player-inactive" id="player-2">
+                <img src="./img/cross.png">Player<br>2
+            </div>
+        </div>
+        <!-- endregion player-panel -->
+
+        <!-- #region tableLinesContent -->
+        <div class="tableLinesContent">
+            <!-- #region game fields / table -->
+            <table>
+                <tr>
+                    <!-- With ./img you make sure that you are in a current order. Not required for Winows, but with Linux and Mac systems. -->
+                    <td id="td0" onclick="fillShape(0)" class="tdHover">
+                        <img id="circle-0" class="shape d-none" src="./img/circle.png">
+                        <img id="cross-0" class="shape d-none" src="./img/cross.png">
+                    </td>
+                    <td id="td1" onclick="fillShape(1)" class="tdHover">
+                        <img id="circle-1" class="shape d-none" src="./img/circle.png">
+                        <img id="cross-1" class="shape d-none" src="./img/cross.png">
+                    </td>
+                    <td id="td2" onclick="fillShape(2)" class="tdHover">
+                        <img id="circle-2" class="shape d-none" src="./img/circle.png">
+                        <img id="cross-2" class="shape d-none" src="./img/cross.png">
+                    </td>
+                </tr>
+                <tr>
+                    <td id="td3" onclick="fillShape(3)" class="tdHover">
+                        <img id="circle-3" class="shape d-none" src="./img/circle.png">
+                        <img id="cross-3" class="shape d-none" src="./img/cross.png">
+                    </td>
+                    <td id="td4" onclick="fillShape(4)" class="tdHover">
+                        <img id="circle-4" class="shape d-none" src="./img/circle.png">
+                        <img id="cross-4" class="shape d-none" src="./img/cross.png">
+                    </td>
+                    <td id="td5" onclick="fillShape(5)" class="tdHover">
+                        <img id="circle-5" class="shape d-none" src="./img/circle.png">
+                        <img id="cross-5" class="shape d-none" src="./img/cross.png">
+                    </td>
+                </tr>
+                <tr>
+                    <td id="td6" onclick="fillShape(6)" class="tdHover">
+                        <img id="circle-6" class="shape d-none" src="./img/circle.png">
+                        <img id="cross-6" class="shape d-none" src="./img/cross.png">
+                    </td>
+                    <td id="td7" onclick="fillShape(7)" class="tdHover">
+                        <img id="circle-7" class="shape d-none" src="./img/circle.png">
+                        <img id="cross-7" class="shape d-none" src="./img/cross.png">
+                    </td>
+                    <td id="td8" onclick="fillShape(8)" class="tdHover">
+                        <img id="circle-8" class="shape d-none" src="./img/circle.png">
+                        <img id="cross-8" class="shape d-none" src="./img/cross.png">
+                    </td>
+                </tr>
+            </table>
+            <!-- endregion game fields / table -->
+
+            <!-- #region lines -->
+            <!-- Let the horizontal and vertical line class be constant, 
+            set only the coordinates of the absolute position through direct style attribute here. -->
+            <div id="LinesContainer">
+            </div>
+            <!-- endregion lines -->
+        </div>
+        <!-- endregion tableLinesContent -->
+    </div>
+    <!-- endregion gameContent -->
+
     <script src="script.js"></script>
 </body>
 
