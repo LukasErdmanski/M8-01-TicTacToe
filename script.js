@@ -117,7 +117,7 @@ function enableHoverOverFields() {
  */
 function fillShape(id) {
     /* Set the symbol only one time: if the field is empty and so lang as the gemovOver variable is false. */
-    if (canFillShaope(id)) {
+    if (canFillShape(id)) {
         playAudio(AUDIO_SYMBOL);
 
         if (currentShape == 'cross') {
@@ -134,7 +134,7 @@ function fillShape(id) {
 /**
  * Condtiion to execute the function fillShapre (s. above that).
  */
-function canFillShaope(id) {
+function canFillShape(id) {
     return !fields[id] && !gameOver && amountOfTurns < 9
 }
 
